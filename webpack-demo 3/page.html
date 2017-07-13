@@ -4,10 +4,24 @@
   <meta charset=utf-8>
 </head>
 <style>
-  [v-cloak] {/*预览的时候忽视 {{ }} 标记*/
-  display: none;
+  [v-cloak] {
+    /*预览的时候忽视 {{ }} 标记*/
+    display: none;
+  }
+  #app{
+    padding: 5px 10px;
+    margin:0 auto;
+    width: 600px;
+
+  }
+  .todos button{
+    margin-left: 20px;
+  }
+.ctime{
+  margin:0 20px;
 }
 </style>
+
 <body>
   <div id="app">
     <div class="newTask">
@@ -15,11 +29,12 @@
     </div>
     <ol class="todos">
       <li v-for="todo in todoList">
-        <input v-cloak type="checkbox" v-model="todo.done"> {{ todo.title }}
+        <input v-cloak type="checkbox" v-model="todo.done" placeholder="请输入待办事物"> {{ todo.title }}
 
         <span v-if="todo.done">已完成</span>
         <span v-else>未完成</span>
-
+        <span class="ctime" style="width: 100px;">创建时间</span>
+        <span >  {{todo.createdAt}}  </span>
         <button @click="removeTodo(todo)">X</button>
         <!-- 👈 加了一个按钮 -->
       </li>
