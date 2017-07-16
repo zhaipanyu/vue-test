@@ -2,12 +2,12 @@
 
 <head>
   <meta charset=utf-8>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
 </head>
 <style>
-  [v-cloak] {
-    /*预览的时候忽视 {{ }} 标记*/
-    display: none;
-  }
+ 
 
   body {
     position: relative;
@@ -21,13 +21,15 @@
     transform: translate(-50%, -50%);
     margin: 0 auto;
     width: 500px;
-    height: 150px;
+    height: 240px;
     background: palevioletred;
     border-radius: 9px;
   }
 
-  .signInAndSignUp {
-    position: relative;
+  .signUp,
+  .login {
+    padding-top: 40px;
+    padding-left: 80px;
   }
 
   #app .radioStatus {
@@ -37,108 +39,104 @@
     transform: translate(-50%);
   }
 
-  .signUp {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  .logout-btn {
+    margin-top: 5px;
+    margin-left: 40%;
+    margin-bottom: 5px;
   }
-
-  .login {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+.todo-content{
+  display: inline-block;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+  width:100px;
+  margin-right: 10px;
+  line-height: 12px;
   }
+.delete-button{
+  margin-left: 20px;
+}  
 
-  .formActions input {
-    position: absolute;
-    left: 50%;
-    top: 70px;
-    transform: translate(-50%);
-    line-height: 20px;
-    height: 20px;
-  }
-
-  #formRow-one {
-    margin-bottom: 10px;
-    /* margin-left: 20px; */
-  }
-
-  /* #formRow-two {
-    margin-left: 30px; 
-   } */ 
-
-  .formRow input {
-    margin-left: 10px;
-  }
-
-  #input-2 {
-    margin-left: 25px;
-  }
 </style>
+
 
 <body>
   <div id="app">
     <section id="signInAndSignUp" v-if="!currentUser">
       <div class="radioStatus">
         <label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
-        <label><input type="radio" name="type" v-model="actionType" value="login">登入</label>
+        <label><input type="radio" name="type" v-model="actionType" value="login">登陆</label>
       </div>
+
       <div class="signUp" v-if="actionType === 'signUp'">
-        <form @submit.prevent=signUp>
-          <!--👈提交事件不再重载页面-->
-          <div class="formRow" id="formRow-one">
-            用户名<input type="text" v-model="formData.username" placeholder="请输入用户名">
-            <!--👈-->
+        <form @submit.prevent=signUp class="form-horizontal">
+
+
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-8">
+              <input type="text" v-model="formData.username" class="form-control" id="inputEmail3" placeholder="请输入用户名">
+            </div>
           </div>
-          <div class="formRow" id="formRow-two">
-            密码<input id="input-2" type="password" v-model="formData.password" placeholder="请输入密码">
-            <!--👈-->
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-8">
+              <input type="password" v-model="formData.password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+            </div>
           </div>
-          <div class="formActions">
-            <input type="submit" value="注册" id="submit-regist">
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-info">注册</button>
+            </div>
           </div>
         </form>
       </div>
+
       <div class="login" v-if="actionType=='login'">
-        <form @submit.prevent="login">
-          <!--👈login指代js文件的login: function () {-->
-          <div class="formRow" id="formRow-one">
-            用户名<input type="text" v-model="formData.username" placeholder="请输入用户名">
-            <!--👈-->
+        <!--👈login指代js文件的login: function () {-->
+        <form @submit.prevent="login" class="form-horizontal">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-8">
+              <input type="text" v-model="formData.username" class="form-control" id="inputEmail3" placeholder="请输入用户名">
+            </div>
           </div>
-          <div class="formRow" id="formRow-two">
-            密码<input id="input-2" type="password" v-model="formData.password" placeholder="请输入密码">
-            <!--👈-->
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-8">
+              <input type="password" v-model="formData.password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+            </div>
           </div>
-          <div class="formActions">
-            <input type="submit" value="登入">
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">登录</button>
+            </div>
           </div>
+
         </form>
       </div>
     </section>
 
     <section id="todo" v-if="currentUser">
-      <p><button @click="logout">登出</button></p>
-      <div class="newTask">
-        <input type="text" v-model="newTodo" @keypress.enter="addTodo" placeholder="请输入代办">
-      </div>
-      <ol class="todos">
-        <li v-for="todo in todoList">
-          <!-- <input class="[v-cloak] type="checkbox" v-model="todo.done"> {{ todo.createdAt }}
+      <!-- <p><button @click="logout">登出</button></p> -->
+      <button @click="logout" type="button" class="btn btn-default logout-btn">登出</button>
 
-          <span v-if="todo.done">已完成</span>
-          <span v-else>未完成</span> -->
+      <div class="form-group">
+        <label for="exampleInputEmail1">&nbsp &nbsp  代办清单</label>
+        <input class="form-control" type="text" v-model="newTodo" @keypress.enter="addTodo" placeholder="请输入代办">
+      </div>
+
+      <ol class="todos">
+        <li v-for="todo in todoList" >
           <input type="checkbox" v-model="todo.done">
-          <span class="todo-content">{{ todo.title }}</span>
+          <div class="todo-content">{{ todo.title }}</div>
           <span class="done" v-if="todo.done">已完成</span>
           <span class="done" v-else>未完成</span>
           <span class="done">创建时间:</span>
           <span class="creat-time">{{ todo.createdAt }}</span>
 
+          <button @click="removeTodo(todo)" type="button" class="btn btn-danger btn-xs  delete-button">x</button>
 
-          <button @click="removeTodo(todo)">X</button>
         </li>
       </ol>
     </section>
