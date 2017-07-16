@@ -62,8 +62,8 @@
 </style>
 
 
-<body [v-cloak] >
-  <div id="app">
+<body>
+  <div id="app" v-cloak>
     <section id="signInAndSignUp" v-if="!currentUser">
       <div class="radioStatus">
         <label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
