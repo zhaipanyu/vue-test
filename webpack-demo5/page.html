@@ -7,7 +7,9 @@
 
 </head>
 <style>
- 
+ [v-cloak] {
+  display: none;
+}
 
   body {
     position: relative;
@@ -60,7 +62,7 @@
 </style>
 
 
-<body>
+<body v-cloak >
   <div id="app">
     <section id="signInAndSignUp" v-if="!currentUser">
       <div class="radioStatus">
